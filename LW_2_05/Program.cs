@@ -58,6 +58,7 @@ namespace LW_2_05
                     case "0": break;
                     case "1": Print(array); break;
                     case "2": CreateArray(); break;
+                    case "3": array = DeleteElementsFromArray(array); break;
                     default: Console.WriteLine("Ошибка ввода"); break;
                 }
             } while (vvod != "0");
@@ -128,7 +129,7 @@ namespace LW_2_05
             do
             {
                 Console.WriteLine("Введите размер массива");
-            } while (!int.TryParse(Console.ReadLine(), out n) && n < 1);
+            } while (!int.TryParse(Console.ReadLine(), out n) || n < 1);
 
             int[] res = new int[n];
             for (int i = 0; i < n; i++)
@@ -138,6 +139,44 @@ namespace LW_2_05
             Console.WriteLine("Массив создан");
             return res;
         }
+
+        static private int[] DeleteElementsFromArray(int[] array)
+        {
+            int[] res;
+            if (array != null && array.Length > 0)
+            {
+                string vvod = "";
+                int k, n;
+                do
+                {
+                    Console.WriteLine($"Введите номер элемента, с которого начинать удаление (1-{array.Length})");
+                } while (!int.TryParse(Console.ReadLine(), out k) || (k < 1 || k > array.Length));
+                do
+                {
+                    Console.WriteLine($"Введите количество элементов для удаления (0-{array.Length - k + 1})");
+                } while (!int.TryParse(Console.ReadLine(), out n) || (n < 0 || n > array.Length - k + 1));
+                res = new int[array.Length - n];                
+                k--;
+                // copy first part
+                for (int i = 0; i < k; i++)
+                {
+                    res[i] = array[i];
+                }
+                // copy second part
+                for (int i = k + n; i < k + n; i++)
+                {
+                    res[i] = array[i - n];
+                }
+                Console.WriteLine("Удаление завершено.");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка. Массив пуст. Удаление не удалось.");
+                res = new int[0];
+            }
+            return res;
+        }
+
 
         // ==== matrix ====
         static private void MatrixMenu()
