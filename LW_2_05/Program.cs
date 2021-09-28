@@ -8,6 +8,8 @@ namespace LW_2_05
         static private int[,] matrix;
         static private int[][] jaggedArray;
 
+        static private Random rn = new Random();
+
         static void Main(string[] args)
         {
             MainMenu();
@@ -18,7 +20,8 @@ namespace LW_2_05
             string vvod = "";
             do
             {
-                Console.WriteLine(@"Главное меню:
+                Console.WriteLine(@"
+Главное меню:
 0 - выход
 1 - работа с одномерным массивом
 2 - работа с двумерным массивом
@@ -42,7 +45,8 @@ namespace LW_2_05
             string vvod = "";
             do
             {
-                Console.WriteLine(@"Одномерный массив:
+                Console.WriteLine(@"
+Одномерный массив:
 0 - назад
 1 - печать одномерного массива
 2 - создание одномерного массива
@@ -53,6 +57,7 @@ namespace LW_2_05
                 {
                     case "0": break;
                     case "1": Print(array); break;
+                    case "2": CreateArray(); break;
                     default: Console.WriteLine("Ошибка ввода"); break;
                 }
             } while (vvod != "0");
@@ -65,7 +70,7 @@ namespace LW_2_05
                 string res = "";
                 for (int i = 0; i < array.Length; i++)
                 {
-                    res += array[0] + " ";
+                    res += array[i] + " ";
                 }
                 Console.WriteLine(res);
             }
@@ -75,13 +80,73 @@ namespace LW_2_05
             }
         }
 
+        static private void CreateArray()
+        {
+            string vvod = "";
+            do
+            {
+                Console.WriteLine(@"
+Создание одномерного массив:
+0 - назад
+1 - ручной ввод
+2 - автоматическое заполнение");
+
+                vvod = Console.ReadLine();
+                switch (vvod)
+                {
+                    case "0": break;
+                    case "1": array = ManualArrayCreation(); break;
+                    case "2": array = AutoArrayCreation(); break;
+                    default: Console.WriteLine("Ошибка ввода"); break;
+                }
+            } while (vvod != "0");
+        }
+
+        static private int[] ManualArrayCreation()
+        {
+            int n = -1;
+            do
+            {
+                Console.WriteLine("Введите размер массива");
+            } while (!int.TryParse(Console.ReadLine(), out n) && n < 1);
+
+            int[] res = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                do
+                {
+                    Console.WriteLine($"Введите {i + 1} элемент массива");
+                } while (!int.TryParse(Console.ReadLine(), out res[i]));
+            }
+            Console.WriteLine("Массив создан");
+            return res;
+        }
+
+        static private int[] AutoArrayCreation()
+        {
+            int n = -1;
+            do
+            {
+                Console.WriteLine("Введите размер массива");
+            } while (!int.TryParse(Console.ReadLine(), out n) && n < 1);
+
+            int[] res = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                res[i] = rn.Next(-100, 100);
+            }
+            Console.WriteLine("Массив создан");
+            return res;
+        }
+
         // ==== matrix ====
         static private void MatrixMenu()
         {
             string vvod = "";
             do
             {
-                Console.WriteLine(@"Двумерный массив:
+                Console.WriteLine(@"
+Двумерный массив:
 0 - назад
 1 - печать двумерного массива
 2 - создание двумерного массива
@@ -124,7 +189,8 @@ namespace LW_2_05
             string vvod = "";
             do
             {
-                Console.WriteLine(@"Рваный массив:
+                Console.WriteLine(@"
+Рваный массив:
 0 - назад
 1 - печать рваного массива
 2 - создание рваного массива
@@ -134,6 +200,7 @@ namespace LW_2_05
                 switch (vvod)
                 {
                     case "0": break;
+                    case "1": Print(jaggedArray); break;
                     default: Console.WriteLine("Ошибка ввода"); break;
                 }
             } while (vvod != "0");
