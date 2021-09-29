@@ -162,7 +162,7 @@ namespace LW_2_05
                     Console.WriteLine($"Введите количество элементов для удаления (0-{array.Length - k + 1})");
                 } while (!int.TryParse(Console.ReadLine(), out n) || (n < 0 || n > array.Length - k + 1));
                 res = new int[array.Length - n];                
-                k--;
+                k--; // get index from number
                 // copy first part
                 for (int i = 0; i < k; i++)
                 {
@@ -204,6 +204,7 @@ namespace LW_2_05
                     case "0": break;
                     case "1": Print(matrix); break;
                     case "2": CreateMatrix(); break;
+                    case "3": matrix = AddColumnToMatrix(matrix); break;
                     default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
                 }
             } while (vvod != "0");
@@ -304,6 +305,39 @@ namespace LW_2_05
                 }
             }
             Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
+            return res;
+        }
+
+        static private int[,] AddColumnToMatrix(int[,] matrix)
+        {
+            int[,] res;
+            if (matrix != null && matrix.Length > 0)
+            {
+                res = new int[matrix.GetLength(0), matrix.GetLength(1) + 1];
+                // insert column
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {                    
+                    do
+                    {
+                        Console.WriteLine($"Введите элемент ({i + 1}:{1})");
+                    } while (!int.TryParse(Console.ReadLine(), out res[i, 0]));
+                }
+                // copy second part
+                for (int i = 1; i < res.GetLength(1); i++)
+                {
+                    for (int j = 0; j < matrix.GetLength(0); j++)
+                    {
+                        res[j, i] = matrix[j, i - 1];
+                    }
+                }
+                Console.WriteLine("Столбец добавлен. Нажмите любую клавишу.");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка. Массив пуст. Удаление не удалось. Нажмите любую клавишу.");
+                res = new int[0, 0];
+            }
             Console.ReadKey();
             return res;
         }
