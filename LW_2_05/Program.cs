@@ -17,9 +17,10 @@ namespace LW_2_05
 
         static private void MainMenu()
         {
-            string vvod = "";
+            string vvod;
             do
             {
+                Console.Clear();
                 Console.WriteLine(@"
 Главное меню:
 0 - выход
@@ -34,7 +35,7 @@ namespace LW_2_05
                     case "1": ArrayMenu(); break;
                     case "2": MatrixMenu(); break;
                     case "3": JaggedArrayMenu(); break;
-                    default: Console.WriteLine("Ошибка ввода"); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
                 }
             } while (vvod != "0");
         }
@@ -42,9 +43,10 @@ namespace LW_2_05
         // ==== array ====
         static private void ArrayMenu()
         {
-            string vvod = "";
+            string vvod;
             do
             {
+                Console.Clear();
                 Console.WriteLine(@"
 Одномерный массив:
 0 - назад
@@ -59,7 +61,7 @@ namespace LW_2_05
                     case "1": Print(array); break;
                     case "2": CreateArray(); break;
                     case "3": array = DeleteElementsFromArray(array); break;
-                    default: Console.WriteLine("Ошибка ввода"); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
                 }
             } while (vvod != "0");
         }
@@ -79,15 +81,18 @@ namespace LW_2_05
             {
                 Console.WriteLine("Массив пуст");
             }
+            Console.WriteLine("Нажмите любую клавишу.");
+            Console.ReadKey();
         }
 
         static private void CreateArray()
         {
-            string vvod = "";
+            string vvod;
             do
             {
+                Console.Clear();
                 Console.WriteLine(@"
-Создание одномерного массив:
+Создание одномерного массива:
 0 - назад
 1 - ручной ввод
 2 - автоматическое заполнение");
@@ -98,7 +103,7 @@ namespace LW_2_05
                     case "0": break;
                     case "1": array = ManualArrayCreation(); break;
                     case "2": array = AutoArrayCreation(); break;
-                    default: Console.WriteLine("Ошибка ввода"); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
                 }
             } while (vvod != "0");
         }
@@ -109,7 +114,7 @@ namespace LW_2_05
             do
             {
                 Console.WriteLine("Введите размер массива");
-            } while (!int.TryParse(Console.ReadLine(), out n) && n < 1);
+            } while (!int.TryParse(Console.ReadLine(), out n) || n < 1);
 
             int[] res = new int[n];
             for (int i = 0; i < n; i++)
@@ -119,7 +124,8 @@ namespace LW_2_05
                     Console.WriteLine($"Введите {i + 1} элемент массива");
                 } while (!int.TryParse(Console.ReadLine(), out res[i]));
             }
-            Console.WriteLine("Массив создан");
+            Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
             return res;
         }
 
@@ -136,7 +142,8 @@ namespace LW_2_05
             {
                 res[i] = rn.Next(-100, 100);
             }
-            Console.WriteLine("Массив создан");
+            Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
             return res;
         }
 
@@ -145,7 +152,6 @@ namespace LW_2_05
             int[] res;
             if (array != null && array.Length > 0)
             {
-                string vvod = "";
                 int k, n;
                 do
                 {
@@ -167,23 +173,24 @@ namespace LW_2_05
                 {
                     res[i] = array[i - n];
                 }
-                Console.WriteLine("Удаление завершено.");
+                Console.WriteLine("Удаление завершено. Нажмите любую клавишу.");
             }
             else
             {
-                Console.WriteLine("Ошибка. Массив пуст. Удаление не удалось.");
+                Console.WriteLine("Ошибка. Массив пуст. Удаление не удалось. Нажмите любую клавишу.");
                 res = new int[0];
             }
+            Console.ReadKey();
             return res;
         }
-
 
         // ==== matrix ====
         static private void MatrixMenu()
         {
-            string vvod = "";
+            string vvod;
             do
             {
+                Console.Clear();
                 Console.WriteLine(@"
 Двумерный массив:
 0 - назад
@@ -196,7 +203,8 @@ namespace LW_2_05
                 {
                     case "0": break;
                     case "1": Print(matrix); break;
-                    default: Console.WriteLine("Ошибка ввода"); break;
+                    case "2": CreateMatrix(); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
                 }
             } while (vvod != "0");
         }
@@ -208,9 +216,9 @@ namespace LW_2_05
                 string res = "";
                 for (int i = 0; i < matrix.GetLength(0); i++)
                 {
-                    for (int j = 0; i < matrix.GetLength(1); i++)
+                    for (int j = 0; j < matrix.GetLength(1); j++)
                     {
-                        res += matrix[i, j].ToString() + " ";
+                        res += matrix[i, j].ToString() + "\t";
                     }
                     res += "\n";
                 }
@@ -220,6 +228,84 @@ namespace LW_2_05
             {
                 Console.WriteLine("Массив пуст");
             }
+            Console.WriteLine("Нажмите любую клавишу.");
+            Console.ReadKey();
+        }
+
+        static private void CreateMatrix()
+        {
+            string vvod;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(@"
+Создание двумерного массива:
+0 - назад
+1 - ручной ввод
+2 - автоматическое заполнение");
+
+                vvod = Console.ReadLine();
+                switch (vvod)
+                {
+                    case "0": break;
+                    case "1": matrix = ManualMatrixCreation(); break;
+                    case "2": matrix = AutoMatrixCreation(); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
+                }
+            } while (vvod != "0");
+        }
+
+        static private int[,] ManualMatrixCreation()
+        {
+            int n = -1, m = -1;
+            do
+            {
+                Console.WriteLine("Введите колво строк");
+            } while (!int.TryParse(Console.ReadLine(), out n) || n < 1);
+            do
+            {
+                Console.WriteLine("Введите колво столбцов");
+            } while (!int.TryParse(Console.ReadLine(), out m) || m < 1);
+
+            int[,] res = new int[n, m];
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    do
+                    {
+                        Console.WriteLine($"Введите {i + 1}:{j + 1} элемент массива");
+                    } while (!int.TryParse(Console.ReadLine(), out res[i, j]));
+                }
+            }
+            Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
+            return res;
+        }
+
+        static private int[,] AutoMatrixCreation()
+        {
+            int n = -1, m = -1;
+            do
+            {
+                Console.WriteLine("Введите колво строк");
+            } while (!int.TryParse(Console.ReadLine(), out n) || n < 1);
+            do
+            {
+                Console.WriteLine("Введите колво столбцов");
+            } while (!int.TryParse(Console.ReadLine(), out m) || m < 1);
+
+            int[,] res = new int[n, m];
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    res[i, j] = rn.Next(-100, 100);
+                }
+            }
+            Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
+            return res;
         }
 
         // ==== jagged array ====
