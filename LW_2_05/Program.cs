@@ -348,6 +348,7 @@ namespace LW_2_05
             string vvod = "";
             do
             {
+                Console.Clear();
                 Console.WriteLine(@"
 Рваный массив:
 0 - назад
@@ -360,7 +361,9 @@ namespace LW_2_05
                 {
                     case "0": break;
                     case "1": Print(jaggedArray); break;
-                    default: Console.WriteLine("Ошибка ввода"); break;
+                    case "2": CreateJaggedArray(); break;
+                    case "3": jaggedArray = DeleteRows(jaggedArray); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
                 }
             } while (vvod != "0");
         }
@@ -384,6 +387,136 @@ namespace LW_2_05
             {
                 Console.WriteLine("Массив пуст");
             }
+            Console.WriteLine("Нажмите любую клавишу.");
+            Console.ReadKey();
+        }
+
+        static private void CreateJaggedArray()
+        {
+            string vvod;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(@"
+Создание рваного массива:
+0 - назад
+1 - ручной ввод
+2 - автоматическое заполнение");
+
+                vvod = Console.ReadLine();
+                switch (vvod)
+                {
+                    case "0": break;
+                    case "1": jaggedArray = ManualJaggedArrayCreation(); break;
+                    case "2": jaggedArray = AutoJaggedArrayCreation(); break;
+                    default: Console.WriteLine("Ошибка ввода. Нажмите любую клавишу."); Console.ReadKey(); break;
+                }
+            } while (vvod != "0");
+        }
+
+        static private int[][] ManualJaggedArrayCreation()
+        {
+            int n = -1;
+            do
+            {
+                Console.WriteLine("Введите колво строк");
+            } while (!int.TryParse(Console.ReadLine(), out n) || n < 1);
+
+            int[][] res = new int[n][];
+
+            for (int i = 0; i < n; i++)
+            {
+                int m = -1;
+                do
+                {
+                    Console.WriteLine("Введите колво столбцов");
+                } while (!int.TryParse(Console.ReadLine(), out m) || m < 1);
+
+                res[i] = new int[m];
+
+                for (int j = 0; j < m; j++)
+                {
+                    do
+                    {
+                        Console.WriteLine($"Введите {i + 1}:{j + 1} элемент массива");
+                    } while (!int.TryParse(Console.ReadLine(), out res[i][j]));
+                }
+            }
+            Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
+            return res;
+        }
+
+        static private int[][] AutoJaggedArrayCreation()
+        {
+            int n = -1;
+            do
+            {
+                Console.WriteLine("Введите колво строк");
+            } while (!int.TryParse(Console.ReadLine(), out n) || n < 1);
+
+            int[][] res = new int[n][];
+
+            for (int i = 0; i < n; i++)
+            {
+                int m = rn.Next(1, 10);
+
+                res[i] = new int[m];
+
+                for (int j = 0; j < m; j++)
+                {
+                    res[i][j] = rn.Next(-100, 100);
+                }
+            }
+            Console.WriteLine("Массив создан. Нажмите любую клавишу.");
+            Console.ReadKey();
+            return res;
+        }
+
+        static private int[][] DeleteRows(int[][] jaggedArray)
+        {
+            int[][] res;
+            if (jaggedArray != null && jaggedArray.Length > 0)
+            {
+                int k1 = 0, k2 = 0;
+                do
+                {
+                    Console.WriteLine($"Введите номер строки, с которой начинать удаление (1-{jaggedArray.Length})");
+                } while (!int.TryParse(Console.ReadLine(), out k1) || k1 < 1 || k1 > jaggedArray.Length);
+                do
+                {
+                    Console.WriteLine($"Введите номер строки, на которой заканчивать удаление ({k1}-{jaggedArray.Length})");
+                } while (!int.TryParse(Console.ReadLine(), out k2) || k2 < k1 || k2 > jaggedArray.Length);
+                res = new int[jaggedArray.Length - k2 + k1 - 1][];
+                // set index from number
+                k1--; k2--;                
+                // copy first part
+                for (int i = 0; i < k1; i++)
+                {
+                    res[i] = new int[jaggedArray[i].Length];
+                    for (int j = 0; j < jaggedArray[i].Length; j++)
+                    {
+                        res[i][j] = jaggedArray[i][j];
+                    }
+                }
+                // copy second part
+                for (int i = k2 + 1; i < jaggedArray.Length; i++)
+                {
+                    res[i] = new int[jaggedArray[i].Length];
+                    for (int j = 0; j < jaggedArray[i].Length; j++)
+                    {
+                        res[i - k2 + k1 - 1][j] = jaggedArray[i][j];
+                    }
+                }
+                Console.WriteLine("Строчки удалены. Нажмите любую клавишу");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка. Массив пуст. Удаление не удалось. Нажмите любую клавишу.");
+                res = new int[0][];
+            }
+            Console.ReadKey();
+            return res;
         }
     }
 }
